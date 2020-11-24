@@ -53,7 +53,6 @@ import com.kabouzeid.gramophone.util.NavigationUtil;
 import com.kabouzeid.gramophone.util.PhonographColorUtil;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -117,7 +116,7 @@ public class AlbumDetailActivity extends AbsSlidingMusicPanelActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setDrawUnderStatusbar();
+        setDrawUnderStatusBar();
         ButterKnife.bind(this);
 
         lastFMRestClient = new LastFMRestClient(this);
@@ -182,12 +181,12 @@ public class AlbumDetailActivity extends AbsSlidingMusicPanelActivity implements
         toolbarColor = color;
         headerView.setBackgroundColor(color);
 
-        setNavigationbarColor(color);
+        setNavigationBarColor(color);
         setTaskDescriptionColor(color);
 
         toolbar.setBackgroundColor(color);
         setSupportActionBar(toolbar); // needed to auto readjust the toolbar content color
-        setStatusbarColor(color);
+        setStatusBarColor(color);
 
         int secondaryTextColor = MaterialValueHelper.getSecondaryTextColor(this, ColorUtil.isColorLight(color));
         artistIconImageView.setColorFilter(secondaryTextColor, PorterDuff.Mode.SRC_IN);
@@ -401,9 +400,9 @@ public class AlbumDetailActivity extends AbsSlidingMusicPanelActivity implements
     }
 
     @Override
-    public void setStatusbarColor(int color) {
-        super.setStatusbarColor(color);
-        setLightStatusbar(false);
+    public void setStatusBarColor(int color) {
+        super.setStatusBarColor(color);
+        setLightStatusBar(false);
     }
 
     private void setAlbum(Album album) {

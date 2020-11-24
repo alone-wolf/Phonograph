@@ -71,11 +71,11 @@ public class PlaylistDetailActivity extends AbsSlidingMusicPanelActivity impleme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setDrawUnderStatusbar();
+        setDrawUnderStatusBar();
         ButterKnife.bind(this);
 
-        setStatusbarColorAuto();
-        setNavigationbarColorAuto();
+        setStatusBarColorAuto();
+        setNavigationBarColorAuto();
         setTaskDescriptionColorAuto();
 
         playlist = getIntent().getExtras().getParcelable(EXTRA_PLAYLIST);

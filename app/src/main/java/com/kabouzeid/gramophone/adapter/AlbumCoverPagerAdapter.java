@@ -114,22 +114,20 @@ public class AlbumCoverPagerAdapter extends CustomFragmentStatePagerAdapter {
         public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
             forceSquareAlbumCover(false);
-            // TODO
-//            forceSquareAlbumCover(PreferenceUtil.getInstance(getContext()).forceSquareAlbumCover());
-            PreferenceUtil.getInstance(getActivity()).registerOnSharedPreferenceChangedListener(this);
+            PreferenceUtil.getInstance(requireActivity()).registerOnSharedPreferenceChangedListener(this);
             loadAlbumCover();
         }
 
         @Override
         public void onDestroyView() {
             super.onDestroyView();
-            PreferenceUtil.getInstance(getActivity()).unregisterOnSharedPreferenceChangedListener(this);
+            PreferenceUtil.getInstance(requireActivity()).unregisterOnSharedPreferenceChangedListener(this);
             unbinder.unbind();
             colorReceiver = null;
         }
 
         private void loadAlbumCover() {
-            SongGlideRequest.Builder.from(Glide.with(this), song)
+            SongGlideRequest.Builder.from(Glide.with(requireContext()), song)
                     .checkIgnoreMediaStore(getActivity())
                     .generatePalette(getActivity()).build()
                     .into(new PhonographColoredTarget(albumCover) {

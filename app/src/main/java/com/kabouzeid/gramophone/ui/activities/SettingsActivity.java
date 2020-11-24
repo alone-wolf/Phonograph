@@ -18,17 +18,14 @@ import androidx.preference.TwoStatePreference;
 import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.kabouzeid.appthemehelper.ThemeStore;
 import com.kabouzeid.appthemehelper.common.prefs.supportv7.ATEColorPreference;
 import com.kabouzeid.appthemehelper.common.prefs.supportv7.ATEPreferenceFragmentCompat;
 import com.kabouzeid.appthemehelper.util.ColorUtil;
-import com.kabouzeid.gramophone.App;
 import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.appshortcuts.DynamicShortcutManager;
-import com.kabouzeid.gramophone.misc.NonProAllowedColors;
 import com.kabouzeid.gramophone.preferences.BlacklistPreference;
 import com.kabouzeid.gramophone.preferences.BlacklistPreferenceDialog;
 import com.kabouzeid.gramophone.preferences.LibraryPreference;
@@ -38,8 +35,6 @@ import com.kabouzeid.gramophone.preferences.NowPlayingScreenPreferenceDialog;
 import com.kabouzeid.gramophone.ui.activities.base.AbsBaseActivity;
 import com.kabouzeid.gramophone.util.NavigationUtil;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
-
-import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,11 +48,11 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
-        setDrawUnderStatusbar();
+        setDrawUnderStatusBar();
         ButterKnife.bind(this);
 
-        setStatusbarColorAuto();
-        setNavigationbarColorAuto();
+        setStatusBarColorAuto();
+        setNavigationBarColorAuto();
         setTaskDescriptionColorAuto();
 
         toolbar.setBackgroundColor(ThemeStore.primaryColor(this));
@@ -77,29 +72,29 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
     public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
         switch (dialog.getTitle()) {
             case R.string.primary_color:
-                if (!App.isProVersion()) {
-                    Arrays.sort(NonProAllowedColors.PRIMARY_COLORS);
-                    if (Arrays.binarySearch(NonProAllowedColors.PRIMARY_COLORS, selectedColor) < 0) {
-                        // color wasn't found
-                        Toast.makeText(this, R.string.only_the_first_5_colors_available, Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(this, PurchaseActivity.class));
-                        return;
-                    }
-                }
+//                if (!App.isProVersion()) {
+//                    Arrays.sort(NonProAllowedColors.PRIMARY_COLORS);
+//                    if (Arrays.binarySearch(NonProAllowedColors.PRIMARY_COLORS, selectedColor) < 0) {
+//                        // color wasn't found
+//                        Toast.makeText(this, R.string.only_the_first_5_colors_available, Toast.LENGTH_LONG).show();
+//                        startActivity(new Intent(this, PurchaseActivity.class));
+//                        return;
+//                    }
+//                }
                 ThemeStore.editTheme(this)
                         .primaryColor(selectedColor)
                         .commit();
                 break;
             case R.string.accent_color:
-                if (!App.isProVersion()) {
-                    Arrays.sort(NonProAllowedColors.ACCENT_COLORS);
-                    if (Arrays.binarySearch(NonProAllowedColors.ACCENT_COLORS, selectedColor) < 0) {
-                        // color wasn't found
-                        Toast.makeText(this, R.string.only_the_first_5_colors_available, Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(this, PurchaseActivity.class));
-                        return;
-                    }
-                }
+//                if (!App.isProVersion()) {
+//                    Arrays.sort(NonProAllowedColors.ACCENT_COLORS);
+//                    if (Arrays.binarySearch(NonProAllowedColors.ACCENT_COLORS, selectedColor) < 0) {
+//                        // color wasn't found
+//                        Toast.makeText(this, R.string.only_the_first_5_colors_available, Toast.LENGTH_LONG).show();
+//                        startActivity(new Intent(this, PurchaseActivity.class));
+//                        return;
+//                    }
+//                }
                 ThemeStore.editTheme(this)
                         .accentColor(selectedColor)
                         .commit();
@@ -179,13 +174,13 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
             super.onViewCreated(view, savedInstanceState);
             getListView().setPadding(0, 0, 0, 0);
             invalidateSettings();
-            PreferenceUtil.getInstance(getActivity()).registerOnSharedPreferenceChangedListener(this);
+            PreferenceUtil.getInstance(requireActivity()).registerOnSharedPreferenceChangedListener(this);
         }
 
         @Override
         public void onDestroyView() {
             super.onDestroyView();
-            PreferenceUtil.getInstance(getActivity()).unregisterOnSharedPreferenceChangedListener(this);
+            PreferenceUtil.getInstance(requireActivity()).unregisterOnSharedPreferenceChangedListener(this);
         }
 
         private void invalidateSettings() {
@@ -193,23 +188,23 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
             setSummary(generalTheme);
             generalTheme.setOnPreferenceChangeListener((preference, o) -> {
                 String themeName = (String) o;
-                if (themeName.equals("black") && !App.isProVersion()) {
-                    Toast.makeText(getActivity(), R.string.black_theme_is_a_pro_feature, Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(getContext(), PurchaseActivity.class));
-                    return false;
-                }
+//                if (themeName.equals("black") && !App.isProVersion()) {
+//                    Toast.makeText(getActivity(), R.string.black_theme_is_a_pro_feature, Toast.LENGTH_LONG).show();
+//                    startActivity(new Intent(getContext(), PurchaseActivity.class));
+//                    return false;
+//                }
 
                 setSummary(generalTheme, o);
 
-                ThemeStore.markChanged(getActivity());
+                ThemeStore.markChanged(requireActivity());
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                     // Set the new theme so that updateAppShortcuts can pull it
-                    getActivity().setTheme(PreferenceUtil.getThemeResFromPrefValue(themeName));
-                    new DynamicShortcutManager(getActivity()).updateDynamicShortcuts();
+                    requireActivity().setTheme(PreferenceUtil.getThemeResFromPrefValue(themeName));
+                    new DynamicShortcutManager(requireActivity()).updateDynamicShortcuts();
                 }
 
-                getActivity().recreate();
+                requireActivity().recreate();
                 return true;
             });
 
@@ -221,28 +216,28 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
             });
 
             final ATEColorPreference primaryColorPref = (ATEColorPreference) findPreference("primary_color");
-            final int primaryColor = ThemeStore.primaryColor(getActivity());
+            final int primaryColor = ThemeStore.primaryColor(requireActivity());
             primaryColorPref.setColor(primaryColor, ColorUtil.darkenColor(primaryColor));
             primaryColorPref.setOnPreferenceClickListener(preference -> {
-                new ColorChooserDialog.Builder(getActivity(), R.string.primary_color)
+                new ColorChooserDialog.Builder(requireActivity(), R.string.primary_color)
                         .accentMode(false)
                         .allowUserColorInput(true)
                         .allowUserColorInputAlpha(false)
                         .preselect(primaryColor)
-                        .show(getActivity());
+                        .show(requireActivity());
                 return true;
             });
 
             final ATEColorPreference accentColorPref = (ATEColorPreference) findPreference("accent_color");
-            final int accentColor = ThemeStore.accentColor(getActivity());
+            final int accentColor = ThemeStore.accentColor(requireActivity());
             accentColorPref.setColor(accentColor, ColorUtil.darkenColor(accentColor));
             accentColorPref.setOnPreferenceClickListener(preference -> {
-                new ColorChooserDialog.Builder(getActivity(), R.string.accent_color)
+                new ColorChooserDialog.Builder(requireActivity(), R.string.accent_color)
                         .accentMode(true)
                         .allowUserColorInput(true)
                         .allowUserColorInputAlpha(false)
                         .preselect(accentColor)
-                        .show(getActivity());
+                        .show(requireActivity());
                 return true;
             });
 
@@ -250,12 +245,12 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 colorNavBar.setVisible(false);
             } else {
-                colorNavBar.setChecked(ThemeStore.coloredNavigationBar(getActivity()));
+                colorNavBar.setChecked(ThemeStore.coloredNavigationBar(requireActivity()));
                 colorNavBar.setOnPreferenceChangeListener((preference, newValue) -> {
-                    ThemeStore.editTheme(getActivity())
+                    ThemeStore.editTheme(requireActivity())
                             .coloredNavigationBar((Boolean) newValue)
                             .commit();
-                    getActivity().recreate();
+                    requireActivity().recreate();
                     return true;
                 });
             }
@@ -264,22 +259,22 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 classicNotification.setVisible(false);
             } else {
-                classicNotification.setChecked(PreferenceUtil.getInstance(getActivity()).classicNotification());
+                classicNotification.setChecked(PreferenceUtil.getInstance(requireActivity()).classicNotification());
                 classicNotification.setOnPreferenceChangeListener((preference, newValue) -> {
                     // Save preference
-                    PreferenceUtil.getInstance(getActivity()).setClassicNotification((Boolean) newValue);
+                    PreferenceUtil.getInstance(requireActivity()).setClassicNotification((Boolean) newValue);
                     return true;
                 });
             }
 
             final TwoStatePreference coloredNotification = (TwoStatePreference) findPreference("colored_notification");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                coloredNotification.setEnabled(PreferenceUtil.getInstance(getActivity()).classicNotification());
+                coloredNotification.setEnabled(PreferenceUtil.getInstance(requireActivity()).classicNotification());
             } else {
-                coloredNotification.setChecked(PreferenceUtil.getInstance(getActivity()).coloredNotification());
+                coloredNotification.setChecked(PreferenceUtil.getInstance(requireActivity()).coloredNotification());
                 coloredNotification.setOnPreferenceChangeListener((preference, newValue) -> {
                     // Save preference
-                    PreferenceUtil.getInstance(getActivity()).setColoredNotification((Boolean) newValue);
+                    PreferenceUtil.getInstance(requireActivity()).setColoredNotification((Boolean) newValue);
                     return true;
                 });
             }
@@ -288,13 +283,13 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
                 colorAppShortcuts.setVisible(false);
             } else {
-                colorAppShortcuts.setChecked(PreferenceUtil.getInstance(getActivity()).coloredAppShortcuts());
+                colorAppShortcuts.setChecked(PreferenceUtil.getInstance(requireActivity()).coloredAppShortcuts());
                 colorAppShortcuts.setOnPreferenceChangeListener((preference, newValue) -> {
                     // Save preference
-                    PreferenceUtil.getInstance(getActivity()).setColoredAppShortcuts((Boolean) newValue);
+                    PreferenceUtil.getInstance(requireActivity()).setColoredAppShortcuts((Boolean) newValue);
 
                     // Update app shortcuts
-                    new DynamicShortcutManager(getActivity()).updateDynamicShortcuts();
+                    new DynamicShortcutManager(requireActivity()).updateDynamicShortcuts();
 
                     return true;
                 });
@@ -306,7 +301,7 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
                 equalizer.setSummary(getResources().getString(R.string.no_equalizer));
             }
             equalizer.setOnPreferenceClickListener(preference -> {
-                NavigationUtil.openEqualizer(getActivity());
+                NavigationUtil.openEqualizer(requireActivity());
                 return true;
             });
 
@@ -315,7 +310,7 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
 
         private boolean hasEqualizer() {
             final Intent effects = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
-            PackageManager pm = getActivity().getPackageManager();
+            PackageManager pm = requireActivity().getPackageManager();
             ResolveInfo ri = pm.resolveActivity(effects, 0);
             return ri != null;
         }
@@ -335,7 +330,7 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
         }
 
         private void updateNowPlayingScreenSummary() {
-            findPreference("now_playing_screen_id").setSummary(PreferenceUtil.getInstance(getActivity()).getNowPlayingScreen().titleRes);
+            findPreference("now_playing_screen_id").setSummary(PreferenceUtil.getInstance(requireActivity()).getNowPlayingScreen().titleRes);
         }
     }
 }

@@ -129,10 +129,10 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
 
     public boolean pendingQuit = false;
 
-    private AppWidgetBig appWidgetBig = AppWidgetBig.getInstance();
-    private AppWidgetClassic appWidgetClassic = AppWidgetClassic.getInstance();
-    private AppWidgetSmall appWidgetSmall = AppWidgetSmall.getInstance();
-    private AppWidgetCard appWidgetCard = AppWidgetCard.getInstance();
+    private final AppWidgetBig appWidgetBig = AppWidgetBig.getInstance();
+    private final AppWidgetClassic appWidgetClassic = AppWidgetClassic.getInstance();
+    private final AppWidgetSmall appWidgetSmall = AppWidgetSmall.getInstance();
+    private final AppWidgetCard appWidgetCard = AppWidgetCard.getInstance();
 
     private Playback playback;
     private List<Song> playingQueue = new ArrayList<>();

@@ -28,7 +28,7 @@ public abstract class AbsThemeActivity extends ATHToolbarActivity {
         MaterialDialogsUtil.updateMaterialDialogsThemeSingleton(this);
     }
 
-    protected void setDrawUnderStatusbar() {
+    protected void setDrawUnderStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             Util.setAllowDrawUnderStatusBar(getWindow());
         else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
@@ -41,26 +41,26 @@ public abstract class AbsThemeActivity extends ATHToolbarActivity {
      *
      * @param color the new statusbar color (will be shifted down on Lollipop and above)
      */
-    public void setStatusbarColor(int color) {
+    public void setStatusBarColor(int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             final View statusBar = getWindow().getDecorView().getRootView().findViewById(R.id.status_bar);
             if (statusBar != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     statusBar.setBackgroundColor(ColorUtil.darkenColor(color));
-                    setLightStatusbarAuto(color);
+                    setLightStatusBarAuto(color);
                 } else {
                     statusBar.setBackgroundColor(color);
                 }
             } else if (Build.VERSION.SDK_INT >= 21) {
                 getWindow().setStatusBarColor(ColorUtil.darkenColor(color));
-                setLightStatusbarAuto(color);
+                setLightStatusBarAuto(color);
             }
         }
     }
 
-    public void setStatusbarColorAuto() {
+    public void setStatusBarColorAuto() {
         // we don't want to use statusbar color because we are doing the color darkening on our own to support KitKat
-        setStatusbarColor(ThemeStore.primaryColor(this));
+        setStatusBarColor(ThemeStore.primaryColor(this));
     }
 
     public void setTaskDescriptionColor(@ColorInt int color) {
@@ -71,7 +71,7 @@ public abstract class AbsThemeActivity extends ATHToolbarActivity {
         setTaskDescriptionColor(ThemeStore.primaryColor(this));
     }
 
-    public void setNavigationbarColor(int color) {
+    public void setNavigationBarColor(int color) {
         if (ThemeStore.coloredNavigationBar(this)) {
             ATH.setNavigationbarColor(this, color);
         } else {
@@ -79,15 +79,15 @@ public abstract class AbsThemeActivity extends ATHToolbarActivity {
         }
     }
 
-    public void setNavigationbarColorAuto() {
-        setNavigationbarColor(ThemeStore.navigationBarColor(this));
+    public void setNavigationBarColorAuto() {
+        setNavigationBarColor(ThemeStore.navigationBarColor(this));
     }
 
-    public void setLightStatusbar(boolean enabled) {
+    public void setLightStatusBar(boolean enabled) {
         ATH.setLightStatusbar(this, enabled);
     }
 
-    public void setLightStatusbarAuto(int bgColor) {
-        setLightStatusbar(ColorUtil.isColorLight(bgColor));
+    public void setLightStatusBarAuto(int bgColor) {
+        setLightStatusBar(ColorUtil.isColorLight(bgColor));
     }
 }

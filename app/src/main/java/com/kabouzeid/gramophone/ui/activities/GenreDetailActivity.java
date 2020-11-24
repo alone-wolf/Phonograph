@@ -59,11 +59,11 @@ public class GenreDetailActivity extends AbsSlidingMusicPanelActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setDrawUnderStatusbar();
+        setDrawUnderStatusBar();
         ButterKnife.bind(this);
 
-        setStatusbarColorAuto();
-        setNavigationbarColorAuto();
+        setStatusBarColorAuto();
+        setNavigationBarColorAuto();
         setTaskDescriptionColorAuto();
 
         genre = getIntent().getExtras().getParcelable(EXTRA_GENRE);
