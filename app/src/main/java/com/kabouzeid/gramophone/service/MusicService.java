@@ -145,7 +145,6 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
     private boolean pausedByTransientLossOfFocus;
     private PlayingNotification playingNotification;
     private AudioManager audioManager;
-    @SuppressWarnings("deprecation")
     private MediaSessionCompat mediaSession;
     private PowerManager.WakeLock wakeLock;
     private PlaybackHandler playerHandler;
@@ -158,10 +157,10 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
     private QueueSaveHandler queueSaveHandler;
     private HandlerThread musicPlayerHandlerThread;
     private HandlerThread queueSaveHandlerThread;
-    private SongPlayCountHelper songPlayCountHelper = new SongPlayCountHelper();
+    private final SongPlayCountHelper songPlayCountHelper = new SongPlayCountHelper();
     private ThrottledSeekHandler throttledSeekHandler;
     private boolean becomingNoisyReceiverRegistered;
-    private IntentFilter becomingNoisyReceiverIntentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+    private final IntentFilter becomingNoisyReceiverIntentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
     private final BroadcastReceiver becomingNoisyReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, @NonNull Intent intent) {
@@ -526,15 +525,13 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
         playerHandler.obtainMessage(PREPARE_NEXT).sendToTarget();
     }
 
-    private boolean prepareNextImpl() {
+    private void prepareNextImpl() {
         synchronized (this) {
             try {
                 int nextPosition = getNextPosition(false);
                 playback.setNextDataSource(getTrackUri(getSongAt(nextPosition)));
                 this.nextPosition = nextPosition;
-                return true;
-            } catch (Exception e) {
-                return false;
+            } catch (Exception ignored) {
             }
         }
     }
@@ -1326,7 +1323,7 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
     private class MediaStoreObserver extends ContentObserver implements Runnable {
         // milliseconds to delay before calling refresh to aggregate events
         private static final long REFRESH_DELAY = 500;
-        private Handler mHandler;
+        private final Handler mHandler;
 
         public MediaStoreObserver(Handler handler) {
             super(handler);
@@ -1353,7 +1350,7 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
     private class ThrottledSeekHandler implements Runnable {
         // milliseconds to throttle before calling run() to aggregate events
         private static final long THROTTLE = 500;
-        private Handler mHandler;
+        private final Handler mHandler;
 
         public ThrottledSeekHandler(Handler handler) {
             mHandler = handler;
@@ -1376,7 +1373,7 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
     private static class SongPlayCountHelper {
         public static final String TAG = SongPlayCountHelper.class.getSimpleName();
 
-        private StopWatch stopWatch = new StopWatch();
+        private final StopWatch stopWatch = new StopWatch();
         private Song song = Song.EMPTY_SONG;
 
         public Song getSong() {

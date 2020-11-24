@@ -2,36 +2,36 @@ import javax.annotation.Nullable
 
 apply plugin: 'com.android.application'
 
-static def gitBranch() {
-    def branch = 'GitHub'
-    try {
-        def gitcheck = 'command -v git >/dev/null 2>&1'.execute()
-        gitcheck.waitFor()
-        if (gitcheck.exitValue() == 0) {
-            def proc = 'git rev-parse --abbrev-ref HEAD'.execute()
-            proc.in.eachLine { line -> branch = line }
-            proc.err.eachLine { line -> println line }
-            proc.waitFor()
-        }
-    } catch (Exception e) {
-        // Do nothing
-        println e
-    }
-    branch
-}
+//static def gitBranch() {
+//    def branch = 'GitHub'
+//    try {
+//        def gitcheck = 'command -v git >/dev/null 2>&1'.execute()
+//        gitcheck.waitFor()
+//        if (gitcheck.exitValue() == 0) {
+//            def proc = 'git rev-parse --abbrev-ref HEAD'.execute()
+//            proc.in.eachLine { line -> branch = line }
+//            proc.err.eachLine { line -> println line }
+//            proc.waitFor()
+//        }
+//    } catch (Exception e) {
+//        // Do nothing
+//        println e
+//    }
+//    branch
+//}
 
-def getProperties(String fileName) {
-    final Properties properties = new Properties()
-    def file = file(fileName)
-    if (file.exists()) {
-        file.withInputStream { stream -> properties.load(stream) }
-    }
-    return properties
-}
+//def getProperties(String fileName) {
+//    final Properties properties = new Properties()
+//    def file = file(fileName)
+//    if (file.exists()) {
+//        file.withInputStream { stream -> properties.load(stream) }
+//    }
+//    return properties
+//}
 
-static def getProperty(@Nullable Properties properties, String name) {
-    return properties.getProperty(name) ?: "$name missing"
-}
+//static def getProperty(@Nullable Properties properties, String name) {
+//    return properties.getProperty(name) ?: "$name missing"
+//}
 
 android {
     compileSdkVersion 29
@@ -47,25 +47,26 @@ android {
         versionCode 179
         versionName '1.3.5'
     }
-    signingConfigs {
-        release {
-            Properties properties = getProperties('/Users/karim/Documents/Phonograph/privatekeys/keystore.properties')
-            storeFile file(getProperty(properties, 'storeFile'))
-            keyAlias getProperty(properties, 'keyAlias')
-            storePassword getProperty(properties, 'storePassword')
-            keyPassword getProperty(properties, 'keyPassword')
-        }
-    }
+//    signingConfigs {
+//        release {
+//            Properties properties = getProperties('/Users/karim/Documents/Phonograph/privatekeys/keystore.properties')
+//            storeFile file(getProperty(properties, 'storeFile'))
+//            keyAlias getProperty(properties, 'keyAlias')
+//            storePassword getProperty(properties, 'storePassword')
+//            keyPassword getProperty(properties, 'keyPassword')
+//        }
+//    }
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
         }
         debug {
             applicationIdSuffix '.debug'
-            versionNameSuffix ' (' + defaultConfig.versionCode + ') DEBUG (' + gitBranch() + ')'
+//            versionNameSuffix ' (' + defaultConfig.versionCode + ') DEBUG (' + gitBranch() + ')'
+            versionNameSuffix ' DEBUG'
         }
     }
     packagingOptions {

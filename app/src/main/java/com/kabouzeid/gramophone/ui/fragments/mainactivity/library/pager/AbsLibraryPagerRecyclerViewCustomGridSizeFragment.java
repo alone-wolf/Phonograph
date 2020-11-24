@@ -154,9 +154,9 @@ public abstract class AbsLibraryPagerRecyclerViewCustomGridSizeFragment<A extend
 
     protected int getMaxGridSizeForList() {
         if (isLandscape()) {
-            return getActivity().getResources().getInteger(R.integer.default_list_columns_land);
+            return requireActivity().getResources().getInteger(R.integer.default_list_columns_land);
         }
-        return getActivity().getResources().getInteger(R.integer.default_list_columns);
+        return requireActivity().getResources().getInteger(R.integer.default_list_columns);
     }
 
     protected final boolean isLandscape() {
