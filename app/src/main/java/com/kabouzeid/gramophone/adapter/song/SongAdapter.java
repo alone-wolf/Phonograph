@@ -1,5 +1,6 @@
 package com.kabouzeid.gramophone.adapter.song;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -244,6 +245,7 @@ public class SongAdapter extends AbsMultiSelectAdapter<SongAdapter.ViewHolder, S
             return DEFAULT_MENU_RES;
         }
 
+        @SuppressLint("NonConstantResourceId")
         protected boolean onSongMenuItemClick(MenuItem item) {
             if (image != null && image.getVisibility() == View.VISIBLE) {
                 switch (item.getItemId()) {
